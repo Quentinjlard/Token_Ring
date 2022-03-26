@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <sys/stat.h>
 
 typedef struct {
     int cote[2];
@@ -19,6 +21,10 @@ void processus(int n, t_pipe tabPipe[])
     }
 }
 
+void listePid(int PID, int tabPid,int *i){
+    tabPid[&i] = PID;
+}
+
 int main(int argc, char* argv[])
 {
     int n = atoi(argv[1]);  // Nb de processus
@@ -26,7 +32,9 @@ int main(int argc, char* argv[])
     int jeton = m;          // Création du jeton avec le nombre de tour
 
     t_pipe tableaupipe[] = (t_pipe*)malloc(n*sizeof(t_pipe));
+    int tabPid[] = (int*)malloc(n*sizeof(t_pipe));
 
+    // Création des tubes
     for(int i=0; i<n; i++)
     {
         pipe(&tableaupipe[i]);
@@ -38,5 +46,25 @@ int main(int argc, char* argv[])
         }
     }
 
-    
+    // Création des répertoire
+        for(int i=0; i<n; i++)
+    {
+        if(fwork()==1)
+        {
+            printf("%d",getpid());
+
+            char *nomRep = getpid();
+            mkdir(nomRep, S_IRWXU);
+            listePid(getpid(),tabPid,i);
+            wait(NULL);
+            sleep(NULL);
+            exit(0);
+        }
+    }
+
+    //Affichage du tableau de tabPid
+    printf("Tableau de PID : \n");
+    for(int i=0; i<n; i++){
+        printf("%d \t",tabPid[i]);
+    }
 }

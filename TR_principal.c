@@ -4,6 +4,20 @@ typedef struct {
     int cote[2];
 } t_pipe;
 
+void processus(int n, t_pipe tabPipe[])
+{
+    size_t i;
+    for (i=0; i < n; i++)
+    {
+        if ((i + 1) != n){
+            close(tabPipe[0]);
+        }
+        if (i != n)
+        {
+            close(tabPipe[1]);
+        }
+    }
+}
 
 int main(int argc, char* argv[])
 {
@@ -23,4 +37,6 @@ int main(int argc, char* argv[])
             exit(1);
         }
     }
+
+    
 }

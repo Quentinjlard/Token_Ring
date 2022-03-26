@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
     {
         pipe(&tableaupipe[i]);
     
-        if (pipe(&tableaupipe[i]) == -1)
+        if (&tableaupipe[i] == -1)
         {
             fprintf(stderr, "Erreur ouverture pipe\n");
             exit(1);

@@ -22,8 +22,10 @@ void createDir(const int id) {
 
 void editTime(const int id, const int move, const struct timespec *time) {
     char filename[16] = {'0'};
+    int microsec = time->tv_nsec * 1000;
     file_t fd;
-    sprintf(filename, "id%06d_f%06d", id, move);
+    sprintf(filename, "id%06d/v%06d", id, move);
     fd = open(filename, O_CREAT | O_WRONLY, 00666);
-    write(fd, time->)
+    write(fd, &microsec, sizeof(int));
+    close(fd);
 }

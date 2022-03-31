@@ -8,12 +8,12 @@ bool dirExist(const int id) {
     {
         while ((dir = readdir(d)) != NULL)
         {
-            if(dir->d_name == id && found != false)
-                found = true;
+            printf("%s\n", dir->d_name);
+            //if(dir->d_name == id && found != false)
+            //    found = true;
         }
         closedir(d);
     }
-    return found;
 }
 
 void createDir(const int id) {

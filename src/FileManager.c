@@ -1,7 +1,18 @@
 #include "FileManager.h"
 
 bool dirExist(const int id) {
-
+    struct dirent *dir;
+    bool found = false;
+    DIR *d = opendir("."); 
+    if (d)
+    {
+        while ((dir = readdir(d)) != id)
+        {
+            found = true;
+        }
+        closedir(d);
+    }
+    return found;
 }
 
 void createDir(const int id) {

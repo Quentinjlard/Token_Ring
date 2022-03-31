@@ -4,6 +4,7 @@
 #include "system.h"
 #include <fcntl.h>
 #include <time.h>
+#include <dirent.h>
 
 typedef int file_t;
 

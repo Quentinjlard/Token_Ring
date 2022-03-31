@@ -6,9 +6,10 @@ bool dirExist(const int id) {
     DIR *d = opendir("."); 
     if (d)
     {
-        while ((dir = readdir(d)) != id)
+        while ((dir = readdir(d)) != NULL)
         {
-            found = true;
+            if(dir->d_name == id && found != false)
+                found = true;
         }
         closedir(d);
     }

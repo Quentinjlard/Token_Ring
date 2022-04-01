@@ -8,10 +8,12 @@ OBJDIR=obj/
 HEADDIR=include/
 EXECDIR=bin/
 OUTPUT=tokenring
+OUTPUT2=ringstat
 
 # Do NOT modify these variables
 
 EXEC=$(EXECDIR)$(OUTPUT)
+EXEC2=$(EXECDIR)$(OUTPUT2)
 SRC=$(wildcard $(SRCDIR)*.c)
 OBJ=$(patsubst $(SRCDIR)%.c,$(OBJDIR)%.o,$(SRC))
 HEAD=$(wildcard $(HEADDIR)*.h)
@@ -32,18 +34,25 @@ vpath %.h $(HEADDIR)
 
 # Rules
 
-all: $(EXEC)
+all: $(EXEC) $(EXEC2)
 ifeq ($(DEBUG), yes)
 	@echo Debug mode.
 else
 	@echo Release mode.
 endif
 
-$(EXEC): $(OBJ)
+$(EXEC): $(OBJDIR)system.o $(OBJDIR)TubeManager.o $(OBJDIR)FileManager.o $(OBJDIR)main.o
+	@echo Compiling $^...
+	$(CC) $^ -o $@ $(LDFLAGS)
+
+$(EXEC2): $(OBJDIR)system.o $(OBJDIR)FileManager.o $(OBJDIR)RingStat.o
 	@echo Compiling $^...
 	$(CC) $^ -o $@ $(LDFLAGS)
 
 # Personal Rules
+
+$(OBJDIR)RingStat.o: RingStat.c system.h FileManager.h
+	$(call execute,$@,$<)
 
 $(OBJDIR)FileManager.o: FileManager.c FileManager.h system.h
 	$(call execute,$@,$<)

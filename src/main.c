@@ -40,6 +40,7 @@ int main(int argc, char *argv[]) {
     stream_t **ts = NULL;
     TubeManager *M = NULL;
     struct timespec time;
+    int old_ms = 0, cur_ms = 0;
 
     if(argc != 3) {
         printf("Nombre d'arguments incorrect\n");
@@ -69,6 +70,9 @@ int main(int argc, char *argv[]) {
     printf("\t> Tapez 'kill -s quit %d' pour quitter le processus père\n", getpid());
     printf("======================================================================\n\n");
 
+    clock_gettime(CLOCK_REALTIME, &time);
+    old_ms = time.tv_nsec / 1000;
+
     for(i=0; i<proc_c; i++) {
         createTubeManager(&tm_arr[i], ts, proc_c, i);
         createDir(i);
@@ -87,7 +91,9 @@ int main(int argc, char *argv[]) {
                 move = jump_c - token;
                 if(token >= 0 && dirExist(i)) {
                     clock_gettime(CLOCK_REALTIME, &time);
-                    editTime(i, move, &time);
+                    cur_ms = time.tv_nsec / 1000;
+                    editTime(i, move, cur_ms, old_ms);
+                    old_ms = cur_ms;
                 }
                 write(M->write, &token, sizeof(int));
             } while(token > 0);
